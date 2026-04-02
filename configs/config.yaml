@@ -30,13 +30,13 @@ generation:
 
 llm:
   provider: groq
-  model_name: openai/gpt-oss-120b
+  model_name: llama-3.1-8b-instant
   temperature: 0.7
-  max_retries: 3
+  max_retries: 5
 
 synthetic:
-  ner_samples: 2800
-  sentiment_samples: 13400
+  ner_samples: 800
+  sentiment_samples: 2000
 
 filtering:
   weights:
@@ -52,8 +52,8 @@ filtering:
   duplicate_similarity_threshold: 0.90
 
 augmentation:
-  ner_base_subset: 100
-  sentiment_base_subset: 100
+  ner_base_subset: 5000
+  sentiment_base_subset: 15000
 
 training:
   ner_model_name: distilbert-base-uncased
