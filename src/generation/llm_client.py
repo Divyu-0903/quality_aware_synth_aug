@@ -11,7 +11,7 @@ load_dotenv()
 
 
 class LLMClient:
-    def __init__(self, model_name: str, max_retries: int = 3):
+    def __init__(self, model_name: str, max_retries: int = 5):
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise ValueError("GROQ_API_KEY not found")
@@ -37,6 +37,15 @@ class LLMClient:
 
             except Exception as e:
                 last_error = e
-                time.sleep(1.5 * (attempt + 1))
+                err = str(e)
 
-        raise RuntimeError(f"LLM failed: {last_error}")
+                if "429" in err or "rate_limit" in err:
+                    wait_time = 60 * (attempt + 1)
+                    print(f"[Rate limit] Waiting {wait_time} seconds...")
+                    time.sleep(wait_time)
+                    continue
+
+                print(f"[LLM error] {err}")
+                time.sleep(5)
+
+        raise RuntimeError(f"LLM failed after retries: {last_error}")
