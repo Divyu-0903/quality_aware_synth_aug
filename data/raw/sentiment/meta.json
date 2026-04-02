@@ -1,0 +1,7 @@
+{
+  "labels": [
+    "negative",
+    "positive"
+  ],
+  "note": "GLUE SST-2 test labels are not publicly available."
+}
